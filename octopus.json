@@ -51,15 +51,6 @@
       ]
     },
     {
-      "name": "build opendsu-sdk",
-      "actions": [
-        {
-          "type": "execute",
-          "cmd": "cd opendsu-sdk && npm run build"
-        }
-      ]
-    },
-    {
       "name": "apihub-root/csc-sponsor-wallet/loader",
       "src": "https://github.com/opendsu/trust-loader.git",
       "actions": [
@@ -293,6 +284,21 @@
         {
           "type": "execute",
           "cmd": "cd themes/blue-csc-theme && npm install"
+        }
+      ]
+    },
+    {
+      "name": "metrics-middleware",
+      "src": "http://github.com/paiusCatalin/metrics-middleware.git",
+      "actions": [
+        {
+          "type": "smartClone",
+          "target": ".",
+          "collectLog": false
+        },
+        {
+          "type": "execute",
+          "cmd": "cd metrics-middleware/middleware && npm install"
         }
       ]
     }

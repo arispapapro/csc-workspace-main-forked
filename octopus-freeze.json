@@ -45,20 +45,11 @@
                     "type": "smartClone",
                     "target": ".",
                     "collectLog": false,
-                    "commit": "ec83f862970cdbfb64204edb31d1b936500d1773"
+                    "commit": "8ba4ba7914a612bcde31004ddaa06581598a8ae3"
                 },
                 {
                     "type": "execute",
                     "cmd": "cd opendsu-sdk && npm install"
-                }
-            ]
-        },
-        {
-            "name": "build opendsu-sdk",
-            "actions": [
-                {
-                    "type": "execute",
-                    "cmd": "cd opendsu-sdk && npm run build"
                 }
             ]
         },
@@ -70,7 +61,7 @@
                     "type": "smartClone",
                     "target": ".",
                     "collectLog": false,
-                    "commit": "5743b524b2186f502752098cfdc9418472633986"
+                    "commit": "a244e4a50ede54ef3dcec4600593fc3623254d93"
                 },
                 {
                     "type": "execute",
@@ -90,7 +81,7 @@
                     "type": "smartClone",
                     "target": ".",
                     "collectLog": false,
-                    "commit": "5743b524b2186f502752098cfdc9418472633986"
+                    "commit": "a244e4a50ede54ef3dcec4600593fc3623254d93"
                 },
                 {
                     "type": "execute",
@@ -110,7 +101,7 @@
                     "type": "smartClone",
                     "target": ".",
                     "collectLog": false,
-                    "commit": "5743b524b2186f502752098cfdc9418472633986"
+                    "commit": "a244e4a50ede54ef3dcec4600593fc3623254d93"
                 },
                 {
                     "type": "execute",
@@ -130,7 +121,7 @@
                     "type": "smartClone",
                     "target": ".",
                     "collectLog": false,
-                    "commit": "5743b524b2186f502752098cfdc9418472633986"
+                    "commit": "a244e4a50ede54ef3dcec4600593fc3623254d93"
                 },
                 {
                     "type": "execute",
@@ -150,7 +141,7 @@
                     "type": "smartClone",
                     "target": ".",
                     "collectLog": false,
-                    "commit": "cb0e0595351ae15bded706cddcc213f724df1b5b"
+                    "commit": "e9c46f8a4eefa962d475eadc1943acaf519c9412"
                 },
                 {
                     "type": "execute",
@@ -166,7 +157,7 @@
                     "type": "smartClone",
                     "target": ".",
                     "collectLog": false,
-                    "commit": "5743b524b2186f502752098cfdc9418472633986"
+                    "commit": "a244e4a50ede54ef3dcec4600593fc3623254d93"
                 },
                 {
                     "type": "execute",
@@ -206,7 +197,7 @@
                     "type": "smartClone",
                     "target": ".",
                     "collectLog": false,
-                    "commit": "5743b524b2186f502752098cfdc9418472633986"
+                    "commit": "a244e4a50ede54ef3dcec4600593fc3623254d93"
                 },
                 {
                     "type": "execute",
@@ -306,6 +297,22 @@
                 {
                     "type": "execute",
                     "cmd": "cd themes/blue-csc-theme && npm install"
+                }
+            ]
+        },
+        {
+            "name": "metrics-middleware",
+            "src": "http://github.com/paiusCatalin/metrics-middleware.git",
+            "actions": [
+                {
+                    "type": "smartClone",
+                    "target": ".",
+                    "collectLog": false,
+                    "commit": "b913286f76c0b302981eb5e73f9c5f7afc839ad1"
+                },
+                {
+                    "type": "execute",
+                    "cmd": "cd metrics-middleware/middleware && npm install"
                 }
             ]
         }

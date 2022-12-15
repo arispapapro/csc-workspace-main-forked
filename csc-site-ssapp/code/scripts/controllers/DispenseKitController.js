@@ -12,11 +12,13 @@ class DispenseKitController extends WebcController {
   constructor(...props) {
     super(...props);
     this.kitsService = new KitsService();
+    this.model.formIsInvalid = true;
+    this.validationConstraints = ["patientId","doseType","doseUom","doseVolume","visitId","dispensingPartyId","kitStorageCondition"];
+
     this.initViewModel();
     this.initHandlers();
     this.initStepperNavigationHandlers();
     this.navigationHandlers();
-
   }
 
   navigationHandlers() {
@@ -40,11 +42,18 @@ class DispenseKitController extends WebcController {
     });
   }
 
+  fillKitModel = async () =>{
+    let kitModel = viewModelResolver('kit');
+    let didService = DidService.getDidServiceInstance();
+    kitModel.form.dispensingPartyId.value = await didService.getDID();
+    return kitModel;
+  }
+
   async initViewModel() {
     let { studyId, orderId, uid, kitId } = this.history.location.state.kit;
 
     this.model = {
-      kitModel: viewModelResolver('kit'),
+      kitModel: await this.fillKitModel(),
       studyId: studyId,
       orderId: orderId,
       uid: uid,
@@ -60,38 +69,47 @@ class DispenseKitController extends WebcController {
       { id: 'from_step_2_to_1', name: 'Previous', visible: true, validated: false },
     ];
 
-    let didService = DidService.getDidServiceInstance();
-    this.model.kitModel.form.dispensingPartyId.value = await didService.getDID();
-
-    this.model.addExpression(
-      "formIsInvalid",
-      () => {
-        return !this.isFormValid();
-      },
-    );
-
-    this.model.addExpression(
-      "formIsValid",
-      () => {
-        return this.isFormValid();
-      },
-    );
-
+    for(let i = 0; i<this.validationConstraints.length; i++){
+      let input = this.validationConstraints[i];
+      this.model.onChange(`kitModel.form.${input}`,this.checkFormValidity.bind(this));
+    }
     this.model.submitButtonDisabled = false;
-
   }
 
-  isFormValid(){
-    return true;
+  checkFormValidity(){
+    for(let i = 0; i<this.validationConstraints.length; i++){
+      let input = this.validationConstraints[i];
+      if(this.model.kitModel.form[input].required && this.model.kitModel.form[input].value.trim() === ""){
+        this.model.formIsInvalid = true;
+        return;
+      }
+    }
+    this.model.formIsInvalid = false;
   }
   initHandlers() {
     this.onTagEvent('dispense-kit', 'click', (e) => {
       this.dispenseKit();
     });
-  }
 
-  step1NavigationHandler() {
-    this.model.enableStep1Navigation = this.model.canScanKit === false && this.model.isKitScannerActive === false;
+    this.onTagEvent('form-reset', 'click', (e) => {
+      this.showModal(
+        'All newly entered data will be removed. This will require you to start over the process of entering the details again',
+        'Clear Changes',
+       async () => {
+          this.model.kitModel =  await this.fillKitModel();
+
+          this.makeStepActive('step-1', 'step-1-wrapper', e);
+        },
+        this.cancelModalHandler,
+        {
+          disableExpanding: true,
+          cancelButtonText: 'Cancel',
+          confirmButtonText: 'Ok, let\'s start over',
+          id: 'confirm-modal'
+        }
+      );
+    });
+
   }
 
   initStepperNavigationHandlers() {
@@ -167,7 +185,6 @@ class DispenseKitController extends WebcController {
       kitStorageCondition: this.model.kitModel.form.kitStorageCondition.value
     };
   }
-
 
 }
 
